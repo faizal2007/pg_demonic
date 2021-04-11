@@ -38,7 +38,9 @@ def promote(db):
         print("Private IP : ", local_ip)
     else:
         if check_db(db).returncode == 0:
-            print("db up")
+            command = ['repmgr', 'standby', 'switchover', '--log-to-file']
+            result = run(command, stdout=PIPE, stderr=PIPE, universal_newlines=True)
+            print(result.stdout)
         else:
             command = ['repmgr', 'standby', 'promote', '--log-to-file']
             result = run(command, stdout=PIPE, stderr=PIPE, universal_newlines=True)
