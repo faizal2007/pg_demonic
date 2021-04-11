@@ -3,7 +3,7 @@ import configparser, os, re, click
 from pathlib import Path
 from pwd import getpwnam
 from lib.db import db_connect, check_poll_status
-from lib.hot_standby import show_cluster
+from lib.hot_standby import show_cluster, promote, check_db
 
 """
 Initial config file
@@ -15,6 +15,11 @@ config.read(config_path)
 
 pg_user  = config['general']['pg_user']
 pg_uid = getpwnam(pg_user).pw_uid
+db = [
+        config['server-1']['hostname'], 
+        config['server-2']['hostname']
+]
+
 os.setuid(pg_uid)
 
 @click.group()
@@ -29,12 +34,14 @@ def show():
     show_cluster()
 
 @click.command()
-def promote():
+def switch():
     """
-    - promote server to primary
+    - switch server role
     """
+    promote(db)
+
 cli.add_command(show)
-cli.add_command(promote)
+cli.add_command(switch)
 
 
 if __name__ == '__main__':
