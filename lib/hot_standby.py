@@ -1,5 +1,4 @@
 import re, os, socket
-import numpy as np
 from subprocess import PIPE, run
 from prettytable import PrettyTable
 
