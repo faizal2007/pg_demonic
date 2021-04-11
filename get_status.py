@@ -14,7 +14,7 @@ start_time = time.time()
 
 # declare a new PostgreSQL connection object
 conn = connect(
-    dbname = "postgres",
+    dbname = "todo",
     user = "postgres",
     host = "192.168.1.23",
     password = "cyb3rsp@c3"
@@ -67,7 +67,8 @@ get_transaction_status()
 check_poll_status()
 
 try:
-    cursor.execute("SELECT pid, age(clock_timestamp(), query_start), usename, query FROM pg_stat_activity WHERE query != '<IDLE>' AND query NOT ILIKE '%pg_stat_activity%' ORDER BY query_start desc;")
+    cursor.execute("create table test (id int);")
+    cursor.execute("drop table test;")
 except Exception as err:
 
     print ("cursor.execute() ERROR:", err)
