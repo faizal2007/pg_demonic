@@ -42,8 +42,7 @@ def promote(db):
             touch(db, 'restart.5432')
 
             result = run(command, stdout=PIPE, stderr=PIPE, universal_newlines=True)
-            print(result.stdout if result.returncode == 0 else result.stderr)
-            #print(result.stdout)
+            print(result.stdout)
         else:
             command = ['repmgr', 'standby', 'promote', '--log-to-file']
             result = run(command, stdout=PIPE, stderr=PIPE, universal_newlines=True)
