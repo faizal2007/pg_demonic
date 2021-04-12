@@ -39,6 +39,8 @@ def promote(db):
     else:
         if check_db(db).returncode == 0:
             command = ['repmgr', 'standby', 'switchover', '--log-to-file']
+            touch(db, 'restart.5432')
+
             result = run(command, stdout=PIPE, stderr=PIPE, universal_newlines=True)
             print(result.stdout)
         else:
@@ -51,3 +53,9 @@ def check_db(server):
     result = run(command, stdout=PIPE, stderr=PIPE, universal_newlines=True)
 
     return result
+
+def touch(db, trigger):
+    command = ['ssh', db, 'touch /var/run/postgresql/' + trigger]
+    result = run(command, stdout=PIPE, stderr=PIPE, universal_newlines=True)
+
+    return result.returncode

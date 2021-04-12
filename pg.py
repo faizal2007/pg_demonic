@@ -3,7 +3,7 @@ import configparser, os, re, click
 from pathlib import Path
 from pwd import getpwnam
 from lib.db import db_connect, check_poll_status
-from lib.hot_standby import show_cluster, promote, check_db
+from lib.hot_standby import show_cluster, promote
 
 """
 Initial config file
@@ -40,9 +40,13 @@ def switch():
     """
     promote(db)
 
+@click.command()
+def test():
+    print('cuba')
+
 cli.add_command(show)
 cli.add_command(switch)
-
+cli.add_command(test)
 
 if __name__ == '__main__':
     cli()
