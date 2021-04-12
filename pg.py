@@ -1,13 +1,14 @@
 #!/usr/bin/env python
-import configparser, os, re, click
+import configparser, os, re, click, sys
 from pathlib import Path
 from pwd import getpwnam
 from lib.db import db_connect, check_poll_status
-from lib.hot_standby import show_cluster, promote
+from lib.hot_standby import show_cluster, promote, follow
 
 """
 Initial config file
 """
+root = Path(getattr(sys, '_MEIPASS', Path.cwd()))
 config_path = Path('config/server.conf')
 
 config = configparser.ConfigParser()
@@ -41,12 +42,15 @@ def switch():
     promote(db)
 
 @click.command()
-def test():
-    print('cuba')
+def rejoin():
+    """
+    - rejoin new primary
+    """
+    follow(db)
 
 cli.add_command(show)
 cli.add_command(switch)
-cli.add_command(test)
+cli.add_command(rejoin)
 
 if __name__ == '__main__':
     cli()
