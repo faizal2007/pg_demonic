@@ -1,6 +1,7 @@
 altgraph==0.17
 click==7.1.2
 configparser==5.0.2
+Cython==0.29.22
 importlib-metadata==3.10.0
 numpy==1.20.2
 pathlib==1.0.1
@@ -8,8 +9,9 @@ pip==18.1
 pkg-resources==0.0.0
 prettytable==2.1.0
 psycopg2-binary==2.8.6
+pyinstaller==4.2
 pyinstaller-hooks-contrib==2021.1
-setuptools==40.8.0
+setuptools==56.0.0
 typing-extensions==3.7.4.3
 wcwidth==0.2.5
 wheel==0.36.2
