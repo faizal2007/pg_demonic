@@ -8,8 +8,8 @@ from lib.hot_standby import show_cluster, promote, follow
 """
 Initial config file
 """
-root = Path(getattr(sys, '_MEIPASS', Path.cwd()))
-config_path = Path('config/server.conf')
+config_path = Path('/etc/pg_tools/server.conf')
+config_path = config_path if config_path else Path('config/server.conf')
 
 config = configparser.ConfigParser()
 config.read(config_path)
