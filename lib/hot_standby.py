@@ -3,6 +3,8 @@ from subprocess import PIPE, run
 from prettytable import PrettyTable
 from pathlib import Path
 
+root = "/home/freakie/pg_tools"
+
 def show_cluster():
     cluster_list = PrettyTable(['Id', 'Node', 'Type', 'Conn'])
 
@@ -48,7 +50,7 @@ def promote(db):
             print(result.stdout)
 
 def check_db(server):
-    script = "scripts/check.sh"
+    script = root + "/scripts/check.sh"
     command = [script, server]
     result = run(command, stdout=PIPE, stderr=PIPE, universal_newlines=True)
 
@@ -75,7 +77,7 @@ def follow(db):
         print("Private IP : ", local)
     else:
         if db_status.returncode != 0:
-            script = "scripts/rejoin.sh"
+            script = root + "/scripts/rejoin.sh"
             command = [script, next]
             result = run(command, stdout=PIPE, stderr=PIPE, universal_newlines=True)
             print(result.stderr)
