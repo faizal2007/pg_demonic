@@ -8,6 +8,7 @@ from lib.hot_standby import show_cluster, promote, follow
 """
 Initial config file
 """
+
 config_path = Path('/etc/pg_tools/server.conf')
 config_path = config_path if config_path.is_file() else Path('config/server.conf')
 
@@ -21,7 +22,7 @@ db = [
         config['server-2']['hostname']
 ]
 
-os.setuid(pg_uid)
+#os.setuid(pg_uid)
 
 @click.group()
 def cli():
