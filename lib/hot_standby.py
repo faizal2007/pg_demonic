@@ -39,16 +39,17 @@ def promote(db):
     else:
         if check_db(db).returncode == 0:
             command = ['repmgr', 'standby', 'switchover', '--log-to-file']
-            #touch(db, 'restart.5432')
-            #waiting for server to promote.... done
-            #server promoted
+
             print("waiting for server to promote...")
             result = run(command, stdout=PIPE, stderr=PIPE, universal_newlines=True)
             print("server promoted." if result.returncode == 0 else "server promotion failed.")
         else:
             command = ['repmgr', 'standby', 'promote', '--log-to-file']
+
+            print("waiting for server to promote...")
             result = run(command, stdout=PIPE, stderr=PIPE, universal_newlines=True)
-            #touch(db, 'follow.5432')
+            print("server promoted." if result.returncode == 0 else "server promotion failed.")
+
             print(result.stdout)
 
 def check_db(server):
