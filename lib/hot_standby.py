@@ -85,7 +85,7 @@ def follow(db):
             result = run(command, stdout=PIPE, stderr=PIPE, universal_newlines=True)
             print(result.stderr)
         else:
-            print("\nNode status :"role)
+            print("\nNode status :" + role)
 
 def get_ip(type='private'):
     global local, public, hostname
