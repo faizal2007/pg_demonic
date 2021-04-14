@@ -49,7 +49,7 @@ def promote(db):
             print("waiting for server to promote...")
             result = run(command, stdout=PIPE, stderr=PIPE, universal_newlines=True)
             print("server promoted." if result.returncode == 0 else "server promotion failed.")
-            print("Need to run " + sys.argv[0] + " rejoin at standby server.")
+            print("Need to run " + sys.argv[0] + " rejoin at old primary.")
             print(result.stdout)
 
 def check_db(server):
