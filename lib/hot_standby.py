@@ -6,7 +6,7 @@ from pathlib import Path
 root = "/home/freakie/pg_tools"
 
 def show_cluster():
-    cluster_list = PrettyTable(['Id', 'Node', 'Type', 'Conn'])
+    #cluster_list = PrettyTable(['Id', 'Node', 'Type', 'Conn'])
 
     command = ['repmgr', 'cluster', 'show']
     cluster_list = run(command, stdout=PIPE, stderr=PIPE, universal_newlines=True)
