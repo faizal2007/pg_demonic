@@ -1,4 +1,4 @@
-import re, os, socket, sys
+import re, os, socket, sys, time
 from subprocess import PIPE, run
 from prettytable import PrettyTable
 from pathlib import Path
@@ -43,21 +43,14 @@ def promote(db):
             print("waiting for server to promote...")
             result = run(command, stdout=PIPE, stderr=PIPE, universal_newlines=True)
             print(result.stderr if result.returncode > 0 else "server promoted.")
-            """
-            if result.returncode == 0:
-                print("server promoted.")
-            else:
-                print(result.stderr)
-                print("server failed.")
-            """
         else:
             command = ['repmgr', 'standby', '-f', '/etc/repmgr.conf','promote', '--log-to-file']
 
             print("waiting for server to promote...")
             result = run(command, stdout=PIPE, stderr=PIPE, universal_newlines=True)
             print("server promoted." if result.returncode == 0 else "server promotion failed.")
-            print("Need to run " + sys.argv[0] + " rejoin at old primary.")
-            print(result.stdout)
+            time.sleep(5)
+            print(follow(db, remote=True))
 
 def check_db(server):
     script = root + "/scripts/check.sh"
@@ -72,7 +65,7 @@ def touch(db, trigger):
 
     return result.returncode
 
-def follow(db):
+def follow(db, remote = False):
     get_ip()
     db_status = check_db(local)
     #print(db_status.returncode)
@@ -80,19 +73,24 @@ def follow(db):
     next =[ d for d in db if d != local].pop(0)
 
     role = check_role().stdout
-    if re.search('(primary)', role):
-        print("This feature only works for standby role \n")
-        print("Current role : primary")
-        print("Hostname : ", hostname)
-        print("Private IP : ", local)
+    if remote:
+        command = ['ssh', db, '/usr/local/bin/pg rejoin']
+        result = run(command, stdout=PIPE, stderr=PIPE, universal_newlines=True)
+        return result.stdout
     else:
-        if db_status.returncode != 0:
-            script = root + "/scripts/rejoin.sh"
-            command = [script, next]
-            result = run(command, stdout=PIPE, stderr=PIPE, universal_newlines=True)
-            print(result.stderr)
+        if re.search('(primary)', role):
+            print("This feature only works for standby role \n")
+            print("Current role : primary")
+            print("Hostname : ", hostname)
+            print("Private IP : ", local)
         else:
-            print("\nNode status :" + role)
+            if db_status.returncode != 0:
+                script = root + "/scripts/rejoin.sh"
+                command = [script, next]
+                result = run(command, stdout=PIPE, stderr=PIPE, universal_newlines=True)
+                print(result.stderr)
+            else:
+                print("\nNode status :" + role)
 
 def get_ip(type='private'):
     global local, public, hostname

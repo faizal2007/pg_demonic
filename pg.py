@@ -49,9 +49,17 @@ def rejoin():
     """
     follow(db)
 
+@click.command()
+def join():
+    """
+    - manual join primary
+    """
+    follow(db, remote=True)
+
 cli.add_command(show)
 cli.add_command(switch)
 cli.add_command(rejoin)
+cli.add_command(join)
 
 if __name__ == '__main__':
     cli()
