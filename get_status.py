@@ -14,9 +14,9 @@ start_time = time.time()
 
 # declare a new PostgreSQL connection object
 conn = connect(
-    dbname = "todo",
-    user = "postgres",
-    host = "192.168.1.23",
+    dbname = "repmgr",
+    user = "pgtools",
+    host = "192.168.1.22",
     password = "cyb3rsp@c3"
 )
 
